@@ -42,5 +42,11 @@ async function getStudentGradesReport (req, res, next) {
 }
 
 async function getCourseGradesReport (req, res, next) {
-  throw new Error('This method has not been implemented yet.')
+  try {
+    res.json({
+      courseGradesReport: await calculateCourseStats(gradesData)
+    })
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching student record: ' + error.message })
+  }
 }
