@@ -1,5 +1,6 @@
 const knex = require('./db')
 const gradesData = require('./json_data/course-grades-data.json')
+const { calculateCourseStats } = require('./util/services.js')
 
 module.exports = {
   getHealth,
