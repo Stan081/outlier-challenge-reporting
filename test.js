@@ -48,6 +48,21 @@ tape('Get student details and grade information as well from json resource', asy
   }
 })
 
+tape('Get a summary for all the courses including the highest, lowest and average grade of the students', async (t) => {
+  const url = `${endpoint}/course/all/grades`
+  try {
+    const { data, response } = await jsonist.get(url)
+    t.equal(response.statusCode, 200, 'endpoint accessed successfully')
+    t.ok(data.courseGradesReport.Calculus.highestGrade <= 100, 'Highest grade should not be above 100')
+    t.ok(data.courseGradesReport.Calculus.lowestGrade >= 0, 'Lowest grade should not be below 0')
+    t.ok(data.courseGradesReport.Calculus.averageGrade >= 0 && data.courseGradesReport.Calculus.averageGrade <= 100, 'Average grade should not be below 0 or above 100')
+    t.end()
+  } catch (error) {
+    console.error('Error:', error.message)
+    t.fail(error.message)
+  }
+})
+
 tape('cleanup', function (t) {
   server.closeDB()
   server.close()
