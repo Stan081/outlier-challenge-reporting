@@ -20,6 +20,20 @@ tape('health', async function (t) {
   }
 })
 
+tape('Get student detail using their Id', async function (t) {
+  const studentId = 1
+  const url = `${endpoint}/student/${studentId}`
+  try {
+    const { data, response } = await jsonist.get(url)
+    t.equal(response.statusCode, 200, 'Endpoint accessed successfully')
+    t.ok(data, 'Student record gotten successfully')
+    t.equal(data.studentDetails.id, 1, 'Returned Student has correct Id')
+    t.end()
+  } catch (error) {
+    t.fail('Error getting student by Id: ' + error.message)
+  }
+})
+
 tape('cleanup', function (t) {
   server.closeDB()
   server.close()
