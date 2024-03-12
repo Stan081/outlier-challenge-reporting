@@ -1,4 +1,5 @@
 const knex = require('./db')
+const gradesData = require('./json_data/course-grades-data.json')
 
 module.exports = {
   getHealth,
@@ -28,7 +29,16 @@ async function getStudent (req, res, next) {
 }
 
 async function getStudentGradesReport (req, res, next) {
-  throw new Error('This method has not been implemented yet.')
+  const id = parseInt(req.params.id)
+  try {
+    const studentDetails = await knex('students').where({ id }).first()
+    res.json({
+      studentDetails: studentDetails,
+      studentGrades: gradesData.filter(grade => grade.id === id)
+    })
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching student record: ' + error.message })
+  }
 }
 
 async function getCourseGradesReport (req, res, next) {

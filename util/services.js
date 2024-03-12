@@ -6,6 +6,10 @@ const gradesUrl = 'https://outlier-coding-test-data.onrender.com/grades.json'
 const FOLDER = 'json_data'
 const FILE = 'course-grades-data.json'
 
+module.exports = {
+    generateGradesFile
+  }
+
 async function generateGradesFile() {
     try {
         const filePath = path.join(FOLDER, FILE)
