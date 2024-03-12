@@ -34,6 +34,20 @@ tape('Get student detail using their Id', async function (t) {
   }
 })
 
+tape('Get student details and grade information as well from json resource', async function (t) {
+  const studentId = 1
+  const url = `${endpoint}/student/${studentId}/grades`
+  try {
+    const { data, response } = await jsonist.get(url)
+    t.equal(response.statusCode, 200, 'endpoint accessed successfully')
+    t.equal(data.studentDetails.id, 1, 'Returned Student has correct Id')
+    t.ok(data.studentGrades, 'Contains grade information')
+    t.end()
+  } catch (error) {
+    t.fail('Error getting to endpoint: ' + error.message)
+  }
+})
+
 tape('cleanup', function (t) {
   server.closeDB()
   server.close()
